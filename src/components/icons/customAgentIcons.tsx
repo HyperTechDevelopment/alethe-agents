@@ -20,31 +20,23 @@ function toIconSize(size: number | string | undefined): number {
   return typeof size === 'number' ? size : 16
 }
 
+const presetIconByKey: Record<string, ComponentType<{ size?: number }>> = {
+  shell: ShellIcon,
+  wsl: WslIcon,
+  claude: ClaudeIcon,
+  codex: CodexIcon,
+  copilot: CopilotIcon,
+  cursor: CursorIcon,
+  freebuff: FreebuffIcon,
+  mimo: MimoIcon,
+  kiro: KiroIcon,
+  antigravity: AntigravityIcon,
+}
+
 function PresetIcon({ presetKey, size }: { presetKey: string; size?: number | string }) {
-  switch (presetKey) {
-    case 'shell':
-      return <ShellIcon size={toIconSize(size)} />
-    case 'wsl':
-      return <WslIcon size={toIconSize(size)} />
-    case 'claude':
-      return <ClaudeIcon size={toIconSize(size)} />
-    case 'codex':
-      return <CodexIcon size={toIconSize(size)} />
-    case 'copilot':
-      return <CopilotIcon size={toIconSize(size)} />
-    case 'cursor':
-      return <CursorIcon size={toIconSize(size)} />
-    case 'freebuff':
-      return <FreebuffIcon size={toIconSize(size)} />
-    case 'mimo':
-      return <MimoIcon size={toIconSize(size)} />
-    case 'kiro':
-      return <KiroIcon size={toIconSize(size)} />
-    case 'antigravity':
-      return <AntigravityIcon size={toIconSize(size)} />
-    default:
-      return <Bot size={size ?? 16} />
-  }
+  const Icon = presetIconByKey[presetKey]
+  if (Icon) return <Icon size={toIconSize(size)} />
+  return <Bot size={size ?? 16} />
 }
 
 function UrlAgentIcon({ href, size }: { href: string; size?: number | string }) {
